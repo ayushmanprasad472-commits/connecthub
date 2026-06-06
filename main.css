@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConnectHub — Find Your People</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+</head>
+<body class="auth-page">
+
+  <!-- Background -->
+  <div class="bg-mesh"></div>
+  <div class="bg-grid"></div>
+
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Main container -->
+  <div class="auth-container">
+
+    <!-- Left panel: branding -->
+    <div class="brand-panel">
+      <div class="brand-logo">
+        <div class="logo-icon">⬡</div>
+        <span class="logo-text">ConnectHub</span>
+      </div>
+      <h1 class="brand-tagline">Connect with <br/><em>real people.</em><br/>Share real <br/><em>moments.</em></h1>
+      <p class="brand-sub">A space built for genuine connection — post updates, chat with friends, and discover communities that matter to you.</p>
+      <div class="brand-stats">
+        <div class="stat"><span class="stat-num">2.1M+</span><span class="stat-label">Members</span></div>
+        <div class="stat"><span class="stat-num">48K+</span><span class="stat-label">Posts Today</span></div>
+        <div class="stat"><span class="stat-num">190+</span><span class="stat-label">Countries</span></div>
+      </div>
+    </div>
+
+    <!-- Right panel: forms -->
+    <div class="forms-panel">
+
+      <!-- Login form -->
+      <div class="form-card" id="loginForm">
+        <h2 class="form-title">Welcome back</h2>
+        <p class="form-subtitle">Sign in to your account</p>
+
+        <div class="input-group">
+          <label>Email address</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" />
+          <a href="#" class="input-hint">Forgot password?</a>
+        </div>
+
+        <div class="form-error" id="loginError"></div>
+
+        <button class="btn-primary" onclick="handleLogin()">
+          <span>Sign In</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <div class="divider"><span>or</span></div>
+
+        <button class="btn-ghost" onclick="demoLogin()">
+          <span>✦</span> Try demo account
+        </button>
+
+        <p class="form-switch">Don't have an account? <a href="#" onclick="showSignup()">Create one free</a></p>
+      </div>
+
+      <!-- Signup form -->
+      <div class="form-card hidden" id="signupForm">
+        <h2 class="form-title">Join ConnectHub</h2>
+        <p class="form-subtitle">Create your free account</p>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label>First name</label>
+            <input type="text" id="signupFirst" placeholder="Alex" autocomplete="given-name" />
+          </div>
+          <div class="input-group">
+            <label>Last name</label>
+            <input type="text" id="signupLast" placeholder="Johnson" autocomplete="family-name" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Email address</label>
+          <input type="email" id="signupEmail" placeholder="you@example.com" autocomplete="email" />
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="signupPassword" placeholder="Min. 8 characters" autocomplete="new-password" />
+          <div class="password-strength" id="passwordStrength">
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+            <span id="strengthLabel">Enter a password</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Confirm password</label>
+          <input type="password" id="signupConfirm" placeholder="••••••••" autocomplete="new-password" />
+        </div>
+
+        <div class="input-group">
+          <label>Date of birth</label>
+          <input type="date" id="signupDob" />
+        </div>
+
+        <div class="form-error" id="signupError"></div>
+
+        <label class="checkbox-label">
+          <input type="checkbox" id="agreeTerms" />
+          <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+        </label>
+
+        <button class="btn-primary" onclick="handleSignup()">
+          <span>Create Account</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <p class="form-switch">Already have an account? <a href="#" onclick="showLogin()">Sign in</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="scripts/auth.js"></script>
+  <script>
+    // Generate floating particles
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.cssText = `
+        left:${Math.random()*100}%;
+        top:${Math.random()*100}%;
+        width:${2+Math.random()*4}px;
+        height:${2+Math.random()*4}px;
+        animation-delay:${Math.random()*8}s;
+        animation-duration:${6+Math.random()*10}s;
+        opacity:${0.1+Math.random()*0.4};
+      `;
+      container.appendChild(p);
+    }
+
+    // Password strength
+    document.getElementById('signupPassword')?.addEventListener('input', function() {
+      const val = this.value;
+      const fill = document.getElementById('strengthFill');
+      const label = document.getElementById('strengthLabel');
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+      const levels = ['Weak','Fair','Good','Strong'];
+      const colors = ['#ef4444','#f97316','#eab308','#22c55e'];
+      fill.style.width = (score * 25) + '%';
+      fill.style.background = colors[score-1] || '#444';
+      label.textContent = val.length === 0 ? 'Enter a password' : levels[score-1] || 'Too short';
+    });
+  </script>
+</body>
+</html>
